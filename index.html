@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Improved viewport settings for mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhavesh ❤️ Priyanshi - Eternal Love</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body class="bg-gradient-to-br from-pink-200 to-purple-300 min-h-screen overflow-hidden">
+    <div class="hearts-container absolute w-full h-full"></div>
+
+    <div class="text-center px-4 py-6 md:p-10 relative z-10">
+        <!-- Adjusted font sizes for mobile -->
+        <h1 class="text-3xl md:text-6xl lg:text-8xl font-bold text-red-500 mb-2 md:mb-4 opacity-0" id="title">
+            <span class="name-animation">Bhavesh❤️Priyanshi</span>
+        </h1>
+        
+        <div class="overflow-hidden px-2">
+            <!-- Improved subtitle sizing -->
+            <p class="text-lg md:text-2xl lg:text-3xl text-purple-800 font-semibold opacity-0" id="subtitle">
+                <span class="letter-animation tracking-tighter md:tracking-normal">Always & Forever</span>
+            </p>
+        </div>
+
+        <!-- Scaled down image container for mobile -->
+        <div class="relative w-32 h-32 md:w-64 md:h-64 mx-auto mt-6 md:mt-12 opacity-0" id="imageContainer">
+            <div class="absolute inset-0 bg-pink-500 rounded-full transform rotate-45 animate-pulse-blur"></div>
+            <img src="image.jpg" alt="Love" class="absolute inset-2 w-28 h-28 md:w-60 md:h-60 object-cover rounded-full transform rotate-15 z-10 shadow-xl">
+        </div>
+
+        <!-- Adjusted text sizing and spacing -->
+        <div class="mt-6 md:mt-12 space-y-2 md:space-y-4">
+            <p class="text-base md:text-xl text-purple-900 opacity-0 floating-text px-2">Soulmates in Every Lifetime</p>
+            <div class="heart-path animate-move-heart text-sm md:text-base">
+                ❤️❤️❤️
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Mobile-first media queries */
+        @media (max-width: 640px) {
+            .hearts-container div { 
+                font-size: 10px !important;
+                animation-duration: 6s !important;
+            }
+            #imageContainer { 
+                width: 8rem !important; 
+                height: 8rem !important; 
+            }
+            #imageContainer img { 
+                width: 7rem !important; 
+                height: 7rem !important; 
+            }
+            .animate-move-heart { 
+                animation-duration: 2.5s; 
+                font-size: 0.875rem;
+            }
+        }
+
+        @keyframes pulse-blur {
+            0% { filter: blur(0px); opacity: 1; }
+            50% { filter: blur(6px); opacity: 0.6; }
+            100% { filter: blur(0px); opacity: 1; }
+        }
+
+        .animate-pulse-blur {
+            animation: pulse-blur 2.5s ease-in-out infinite;
+        }
+
+        @keyframes move-heart {
+            0% { transform: translateX(-8px); }
+            50% { transform: translateX(8px); }
+            100% { transform: translateX(-8px); }
+        }
+    </style>
+
+    <script>
+        // Mobile-optimized GSAP settings
+        gsap.defaults({
+            duration: window.innerWidth < 768 ? 0.8 : 1.5,
+            ease: "power2.out"
+        });
+
+        // Title Animation with mobile adjustments
+        gsap.fromTo("#title", { opacity: 0, y: -20 }, {
+            opacity: 1, 
+            y: 0,
+            ease: "elastic.out(1, 0.3)",
+            onComplete: () => {
+                gsap.to("#title", {
+                    rotate: window.innerWidth < 768 ? -1 : -3,
+                    yoyo: true,
+                    repeat: -1,
+                    duration: 1.8
+                });
+            }
+        });
+
+        // Responsive image animation
+        gsap.to("#imageContainer", {
+            opacity: 1,
+            scale: window.innerWidth < 768 ? 0.95 : 1,
+            rotation: 0,
+            delay: 0.8
+        });
+
+        // Mobile-friendly heart creation
+        function createHearts() {
+            const container = document.querySelector('.hearts-container');
+            const heartCount = window.innerWidth < 768 ? 10 : 25;
+            
+            for (let i = 0; i < 150; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.className = 'absolute text-pink-400 opacity-50';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.fontSize = (Math.random() * (window.innerWidth < 768 ? 8 : 20) + 8) + 'px';
+                
+                gsap.to(heart, {
+                    y: -1000,
+                    duration: Math.random() * 6 + 6,
+                    repeat: -1,
+                    ease: "none",
+                    delay: Math.random() * -8
+                });
+                
+                container.appendChild(heart);
+            }
+        }
+
+        // Touch event handling
+        let lastTap = 0;
+        document.body.addEventListener('click', (e) => {
+            const now = Date.now();
+            if (now - lastTap < 300) return;
+            lastTap = now;
+            
+            gsap.to(document.createElement('div'), {
+                x: e.clientX,
+                y: e.clientY,
+                innerHTML: '❤️',
+                duration: 1.2,
+                opacity: 0,
+                fontSize: window.innerWidth < 768 ? 24 : 40,
+                onStart: function() {
+                    document.body.appendChild(this.targets()[0]);
+                }
+            });
+        });
+
+        // Initialize with mobile checks
+        window.addEventListener('load', () => {
+            createHearts();
+            if (window.innerWidth < 768) {
+                gsap.set("#title", { fontSize: '2.5rem' });
+                gsap.set("#subtitle", { fontSize: '1.125rem' });
+                gsap.set(".floating-text", { fontSize: '1rem' });
+            }
+        });
+    </script>
+</body>
+</html>
